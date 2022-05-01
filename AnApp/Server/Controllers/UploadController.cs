@@ -4,11 +4,11 @@ using Microsoft.AspNetCore.Mvc;
 using AnApp.Server.Authorization;
 using AnApp.Server.Models;
 using AnApp.Shared.Models;
-//using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AnApp.Server.Controllers
 {
-    [Authorize]
+    [Authorization.Authorize]
 
     [Route("api/[controller]")]
     [ApiController]

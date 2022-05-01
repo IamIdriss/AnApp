@@ -1,13 +1,14 @@
 ﻿using AnApp.Server.Authorization;
 using AnApp.Server.Models;
 using AnApp.Shared.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
 namespace AnApp.Server.Controllers
 {
-    [Authorize]
+    [Authorization.Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase

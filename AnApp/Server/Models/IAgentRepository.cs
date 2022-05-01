@@ -2,8 +2,7 @@
 using AnApp.Shared.Data;
 namespace AnApp.Server.Models
 {
-    public interface IAgentRepository
-    {
+    
         public interface IAgentRepository
         {
             PagedResult<Agent> GetAgents(string? name, int page);
@@ -12,5 +11,5 @@ namespace AnApp.Server.Models
             Task<Agent?> UpdateAgent(Agent agent);
             Task<Agent?> DeleteAgent(int Id);
         }
-    }
+    
 }

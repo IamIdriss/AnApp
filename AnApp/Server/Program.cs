@@ -20,7 +20,7 @@ builder.Services.AddRazorPages();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
 
-    options.UseSqlServer(builder.Configuration.GetConnectionString("AppDbContext") ?? throw new InvalidOperationException("Connection string 'GCourrierDbContext' not found.")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("AppDbContext") ?? throw new InvalidOperationException("Connection string 'AppDbContext' not found.")));
 
 //builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
 builder.Services.AddScoped<IAgentRepository, AgentRepository>();

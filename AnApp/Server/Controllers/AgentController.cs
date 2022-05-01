@@ -1,7 +1,7 @@
 ﻿using AnApp.Server.Authorization;
 using AnApp.Server.Models;
 using AnApp.Shared.Models;
-//using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AnApp.Server.Controllers

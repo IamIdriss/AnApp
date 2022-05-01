@@ -22,7 +22,8 @@ namespace AnApp.Shared.Models
         public string PhoneNumber { get; set; } = default!;
         [Required]
         public bool IsDeleting { get; set; } = default!;
-        
+
+        public int DepartmentId { get; set; }
         public Department Departments { get; set; }  
     }
 }
