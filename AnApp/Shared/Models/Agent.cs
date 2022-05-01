@@ -23,6 +23,6 @@ namespace AnApp.Shared.Models
         [Required]
         public bool IsDeleting { get; set; } = default!;
         
-        public Department Department { get; set; }  
+        public Department Departments { get; set; }  
     }
 }

@@ -1,6 +1,8 @@
-﻿namespace AnApp.Server.Models
+﻿using AnApp.Shared.Models;
+using AnApp.Shared.Data;
+namespace AnApp.Server.Models
 {
-    public class IUploadRepository
+    public interface IUploadRepository
     {
 
         PagedResult<Upload> GetUploads(string? name, int page);

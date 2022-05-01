@@ -1,6 +1,14 @@
+using AnApp.Server.Authorization;
+using AnApp.Server.Helpers;
 using AnApp.Server.Models;
-using Microsoft.AspNetCore.ResponseCompression;
+using AnApp.Server.Services;
 using Microsoft.EntityFrameworkCore;
+//using Microsoft.OpenApi.Models;
+using System.Reflection;
+using Quartz;
+
+using Microsoft.AspNetCore.ResponseCompression;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,10 +22,21 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
     options.UseSqlServer(builder.Configuration.GetConnectionString("AppDbContext") ?? throw new InvalidOperationException("Connection string 'GCourrierDbContext' not found.")));
 
-builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
+//builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
 builder.Services.AddScoped<IAgentRepository, AgentRepository>();
 builder.Services.AddScoped<IUploadRepository, UploadRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IJwtUtils, JwtUtils>();
+
+builder.Services.AddQuartz(q =>
+{
+    q.UseMicrosoftDependencyInjectionJobFactory();
+    q.AddJobAndTrigger<UploadProcessorJob>(builder.Configuration);
+});
+builder.Services.AddQuartzHostedService(
+    q => q.WaitForJobsToComplete = true);
+
+builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
 
 var app = builder.Build();
 
@@ -40,6 +59,8 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseMiddleware<ErrorHandlerMiddleware>();
+app.UseMiddleware<JwtMiddleware>();
 
 app.MapRazorPages();
 app.MapControllers();

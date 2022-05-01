@@ -1,4 +1,6 @@
 ﻿using AnApp.Shared.Models;
+using AnApp.Shared.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace AnApp.Server.Models
 {
