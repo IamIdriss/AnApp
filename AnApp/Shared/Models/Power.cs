@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace AnApp.Shared.Models
 {
-    public enum Power
+    public enum Gender
 
-    {   Normal,
-        Admin,
+    {   Male,
+        Female,
 
     }
 }

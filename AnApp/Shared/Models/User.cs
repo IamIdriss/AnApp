@@ -1,28 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.Json.Serialization;
+using System.ComponentModel.DataAnnotations;
 
 namespace AnApp.Shared.Models
 {
-    public class Agent
-
+  public class User
     {
         [Key]
         public int Id { get; set; }
-        [Required]
         public string FirstName { get; set; } = default!;
-        [Required]
         public string LastName { get; set; } = default!;
-        [Required]
-        public Gender Gender { get; set; }
-        [Required]
-        public string PhoneNumber { get; set; } = default!;
-        [Required]
+        public string Username { get; set; } = default!;
+        public string Password { get; set; } = default!;
+        public string? Token { get; set; } = default!;
         public bool IsDeleting { get; set; } = default!;
-        
-        public Department Department { get; set; }  
+        [JsonIgnore]
+        public string? PasswordHash { get; set; }
     }
 }
