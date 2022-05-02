@@ -17,8 +17,9 @@ namespace AnApp.Shared.Models
 
         [Required]
         public string Name { get; set; } = default!;
+
         [Required]
         public string Description { get; set; } = default!; 
-        public ICollection<Agent> Agents { get; set; }
+        public List<Agent> Agents { get; set; }
     }
 }
