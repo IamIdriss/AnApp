@@ -8,7 +8,7 @@ using Microsoft.Extensions.Options;
 
 namespace AnApp.Server.Controllers
 {
-    [Authorization.Authorize]
+    //[Authorization.Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase

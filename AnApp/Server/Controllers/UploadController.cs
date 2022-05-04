@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace AnApp.Server.Controllers
 {
-    [Authorization.Authorize]
+    //[Authorization.Authorize]
 
     [Route("api/[controller]")]
     [ApiController]

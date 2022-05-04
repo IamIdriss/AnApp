@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AnApp.Server.Controllers
 {
-    [Authorize]
+   // [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class AgentController : ControllerBase
