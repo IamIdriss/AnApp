@@ -14,7 +14,7 @@ namespace AnApp.Client.Services
             _httpService = httpService;
         }
 
-        public async Task<PagedResult<Agent>> GetPeople(string? name, string page)
+        public async Task<PagedResult<Agent>> GetAgents(string? name, string page)
         {
             return await _httpService.Get<PagedResult<Agent>>("api/agent" + "?page=" + page + "&name=" + name);
         }
