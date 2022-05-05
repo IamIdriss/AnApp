@@ -1,0 +1,88 @@
+﻿@page "/agent/viewagent/{id}"
+@inject IAgentService AgentService
+@inject NavigationManager navManager
+@inject AnApp.Client.Shared.PageHistoryState PageHistoryState
+
+<h1>View Agent</h1>
+<br/>
+
+<table class="table col-md-6">
+    <tbody>
+        <tr>
+            <th scope="row">Id</th>
+            <td>@agent.AgentId</td>
+        </tr>
+        <tr>
+            <th scope="row">First Name</th>
+            <td>@agent.FirstName</td>
+        </tr>
+        <tr>
+            <th scope="row">Last Name</th>
+            <td>@agent.LastName</td>
+        </tr>
+        <tr>
+            <th scope="row">Gender</th>
+            <td>@agent.Gender</td>
+        </tr>
+        <tr>
+            <th scope="row">Phone Number</th>
+            <td>@agent.PhoneNumber</td>
+        </tr>
+    </tbody>
+</table>
+
+<hr />
+    <h3>Departments</h3>
+<hr />
+
+<table class="table">
+    <thead class="thead-light"> 
+        <tr >
+            <th>Id</th>
+            <th>Name</th>
+            <th>Description</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var department in agent.Departments)
+        {
+            <tr>
+                <td>@department.Id</td>
+                <td>@department.Name</td>
+                <td>@department.Description</td>
+               
+            </tr>
+        }
+    </tbody>
+</table>
+<div class="form-group">
+    @if (PageHistoryState.CanGoBack()){
+        <NavLink href="@PageHistoryState.GetGoBackPage()" class="btn btn-link">Back</NavLink>
+    }
+    else{
+        <NavLink href="/agent/1" class="btn btn-link">Back</NavLink>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public string Id { get; set; }
+
+    Agent agent = new Agent
+    {
+        FirstName = "",
+        LastName = "",
+        Gender = Gender.Male,
+        PhoneNumber = "",
+        Departments = new List<Department>
+        {
+            new Department {Id=, Name="", Description=""}   
+        }
+    };
+    
+    protected async override Task OnParametersSetAsync()
+    {
+       agent = await AgentService.GetAgent(int.Parse(Id));
+    }
+}

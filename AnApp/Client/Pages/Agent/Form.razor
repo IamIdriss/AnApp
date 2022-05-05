@@ -1,0 +1,117 @@
+﻿@inject AnApp.Client.Shared.PageHistoryState PageHistoryState
+
+<EditForm Model="@agent" OnValidSubmit="@OnValidSubmit">
+    <FluentValidator TValidator="AgentValidator" />
+    <div class="form-group">
+        <label>First Name :</label>
+        <div>
+            <InputText @bind-Value="@agent.FirstName" class="form-control col-sm-3" />
+            <ValidationMessage For="@(() => agent.FirstName)" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label>Last Name :</label>
+        <div>
+            <InputText @bind-Value="@agent.LastName" class="form-control col-sm-3" />
+            <ValidationMessage For="@(() => agent.LastName)" />
+        </div>
+    </div>
+    <div class="form-group ">
+        <div>
+            <label>Gender :</label>
+            <div>
+                <InputSelect @bind-Value="@agent.Gender" class="form-control col-sm-3"> 
+                   <option value="Select">--Select--</option>
+                   <option value="Male">Male</option>
+                   <option value="Female">Female</option>
+                   
+                </InputSelect>
+                <ValidationMessage For="@(() => agent.Gender)" />
+            </div>
+        </div>
+    </div>
+    <div class="form-group ">
+        <div>
+            <label>Phone Number :</label>
+            <div>
+                <InputText @bind-Value="@agent.PhoneNumber" class="form-control col-sm-3" />
+                <ValidationMessage For="@(() => agent.PhoneNumber)" />
+            </div>
+        </div>
+    </div>
+
+    <hr/>
+    <h3>Departments</h3>
+    <div class="form-row">
+        <div class="form-group col-md-3">
+            <label>Street</label>
+        </div>
+        <div class="form-group col-md-3">
+            <label>City</label>
+        </div>
+        <div class="form-group col-md-3">
+            <label>State</label>
+        </div>
+        <div class="form-group col-md-2">
+            <label>Zip Code</label>
+        </div>
+    </div>
+
+    <ValidationMessage For="@(() => agent.Departments)" />
+    @foreach (var department in agent.Departments)
+    {
+        <div class="form-row">
+            <div class="form-group col-md-3">
+                <InputText id="Name" class="form-control" placeholder="Name" @bind-Value="department.Name" />
+                <ValidationMessage For="@(() => department.Name)" />
+            </div>
+            <div class="form-group col-md-3">
+                <InputText id="Description" class="form-control" placeholder="Description" @bind-Value="department.Description" />
+                <ValidationMessage For="@(() => department.Description)" />
+            </div>
+            
+        </div>
+    }
+    <div class="form-group">
+        <a href="javascript:void(0)" class="btn btn-success" @onclick="@(()=>OnDepartmentAdd(agent))">Add Department</a>
+    </div>
+    <hr/>
+
+    <div class="form-group">
+        <button disabled="@loading" class="btn btn-primary">
+            @if (loading) 
+            {
+                <span class="spinner-border spinner-border-sm mr-1"></span>
+            }
+            @ButtonText
+        </button>
+        @if (PageHistoryState.CanGoBack()){
+            <NavLink href="@PageHistoryState.GetGoBackPage()" class="btn btn-link">Cancel</NavLink>
+        }
+        else{
+            <NavLink href="/agent/1" class="btn btn-link">Back</NavLink>
+        }
+    </div>
+
+</EditForm>
+
+@code {
+    [Parameter]
+    public Agent agent { get; set; }
+    [Parameter]
+    public string ButtonText { get; set; } = "Save";
+    [Parameter]
+    public bool loading {get; set;} = false;
+    [Parameter]
+    public EventCallback OnValidSubmit { get; set; }
+
+    public void OnDepartmentDelete(Agent agent, Department department)
+    {
+        agent.Departments.Remove(department);
+    }
+
+    public void OnDepartmentAdd(Agent agent)
+    {
+        agent.Departments.Add(new Department { Name = "", Description = "" });
+    }
+}

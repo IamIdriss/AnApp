@@ -1,0 +1,58 @@
+﻿@page "/agent/updateagent/{id}"
+@attribute [Authorize]
+@inject IAlertService AlertService
+@inject IAgentService AgentService
+@inject NavigationManager navManager
+@inject AnApp.Client.Shared.PageHistoryState PageHistoryState
+
+<h1>Edit Agent</h1>
+<br/>
+
+<Form ButtonText="Update Agent" agent="@agent" loading="@loading"
+            OnValidSubmit="@UpdateAgent" />
+
+@code {
+    bool loading = false;
+    
+    [Parameter]
+    public string Id { get; set; }
+
+    Agent agent = new Agent
+    {
+        FirstName = "",
+        LastName = "",
+        Gender = Gender.Male,
+        PhoneNumber = "",
+        Departments = new List<Department>
+        {
+            new Department {Name="", Description=""}   
+        }
+    };
+    
+    protected async override Task OnParametersSetAsync()
+    {
+       agent = await AgentService.GetAgent(int.Parse(Id));
+    }
+
+    async Task UpdateAgent()
+    {
+        loading = true;
+        try
+        {
+            await AgentService.UpdateAgent(agent);
+            AlertService.Success("Agent updated successfully", keepAfterRouteChange: true);
+            if (PageHistoryState.CanGoBack()){
+                navManager.NavigateTo(PageHistoryState.GetGoBackPage());
+            }
+            else{
+                navManager.NavigateTo("/agent/1");
+            } 
+        }
+        catch (Exception ex)
+        {
+            AlertService.Error(ex.Message);
+            loading = false;
+            StateHasChanged();
+        }
+    }
+}

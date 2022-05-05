@@ -1,0 +1,49 @@
+﻿@page "/agent/createagent"
+@attribute [Authorize]
+@inject IAlertService AlertService
+@inject IAgentService AgentService
+@inject NavigationManager navManager
+@inject AnApp.Client.Shared.PageHistoryState PageHistoryState
+
+<h1>Create Agent</h1>
+<br/>
+
+<Form ButtonText="Create Agent" agent="@agent" loading="@loading"
+            OnValidSubmit="@CreateAgent" />
+
+@code {
+    bool loading = false;
+
+    Agent agent = new Agent
+        {
+            FirstName = "",
+            LastName = "",
+            Gender = Gender.Male,
+            PhoneNumber = "",
+            Departments = new List<Department>
+        {
+            new Department {Name="", Description=""}   
+        }
+    };
+    async Task CreateAgent()
+    {
+        loading = true;
+        try
+        {
+            await AgentService.AddAgent(agent);
+            AlertService.Success("Agent added successfully", keepAfterRouteChange: true);
+            if (PageHistoryState.CanGoBack()){
+                navManager.NavigateTo(PageHistoryState.GetGoBackPage());
+            }
+            else{
+                navManager.NavigateTo("/agent/1");
+            } 
+        }
+        catch (Exception ex)
+        {
+            AlertService.Error(ex.Message);
+            loading = false;
+            StateHasChanged();
+        }
+    }
+}
